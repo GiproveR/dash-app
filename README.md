@@ -1,6 +1,6 @@
 ## 🚀 Installation & Setup Guide
 
-This project requires **Python 3.8 or higher**. Follow these steps to clone the repository, set up a virtual environment, and run the application locally on your machine.
+This project requires **Python 3.12 or higher**. Follow these steps to clone the repository, set up a virtual environment, and run the application locally on your machine.
 
 ### 1. Clone the Repository
 Clone the project to your local machine and navigate into the project directory:
