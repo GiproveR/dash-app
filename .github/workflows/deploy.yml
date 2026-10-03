@@ -1,9 +1,6 @@
 name: Deploy Dash App to Yandex Cloud
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
   deploy:
