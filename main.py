@@ -5,12 +5,6 @@ import os
 
 df = pd.read_csv('gapminder_unfiltered.csv')
 
-assets_dir = os.path.join(os.path.dirname(__file__), 'assets')
-engine_path = os.path.join(assets_dir, 'engine.txt')
-
-with open(engine_path, 'r', encoding='utf-8') as f:
-    plotly_js_code = f.read()
-
 app = Dash()
 
 app.scripts.config.serve_locally = True
@@ -29,7 +23,7 @@ app.index_string = f'''
         {{%app_entry%}}
         <footer>
             {{%config%}}
-            <script>{plotly_js_code}</script>
+            <script src="https://cdn.plot.ly/plotly-4.1.1.min.js" crossorigin="anonymous"></script>
             {{%scripts%}}
             {{%renderer%}}
         </footer>
