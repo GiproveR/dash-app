@@ -4,10 +4,12 @@ import pandas as pd
 
 df = pd.read_csv('gapminder_unfiltered.csv')
 
-app = Dash(requests_pathname_prefix='/')
+app = Dash(
+    requests_pathname_prefix='/',
+    xternal_scripts=["https://cdn.plot.ly/plotly-4.1.1.min.js"]
+)
 
-app.config.suppress_callback_exceptions = True
-app.scripts.config.serve_locally = True
+app.scripts.config.serve_locally = False
 app.css.config.serve_locally = True
 
 server = app.server
