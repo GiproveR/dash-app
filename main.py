@@ -137,7 +137,7 @@ app.layout = html.Div(
                                     children=[
                                         html.Div([html.Label('X Axis', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='country', id='scatter-x-dropdown')]),
                                         html.Div([html.Label('Y Axis', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='lifeExp', id='scatter-y-dropdown')]),
-                                        html.Div([html.Label('Radius', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='pop', id='scatter-r-dropdown')]),
+                                        html.Div([html.Label('Radius', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=numeric_dropdown_options, value='pop', id='scatter-r-dropdown')]),
                                     ]
                                 ),
                                 dcc.Graph(id='scatter-graph', style={'flex': '1'})
