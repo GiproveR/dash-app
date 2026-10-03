@@ -1,12 +1,40 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
+import os
 
 df = pd.read_csv('gapminder_unfiltered.csv')
 
 app = Dash()
+
 app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
+
+app.index_string = f'''
+<!DOCTYPE html>
+<html>
+    <head>
+        {{%metas%}}
+        <title>{{%title%}}</title>
+        {{%favicon%}}
+        {{%css%}}
+    </head>
+    <body>
+        {{%app_entry%}}
+        <footer>
+            {{%config%}}
+            <script src="https://cdn.plot.ly/plotly-4.1.1.min.js" crossorigin="anonymous"></script>
+            {{%scripts%}}
+            {{%renderer%}}
+        </footer>
+    </body>
+</html>
+'''
+
+app.scripts.js_modules = [
+    module for module in app.scripts.get_all_scripts() 
+    if module['package_name'] != 'dash' or 'plotly' not in module.get('dev_package_path', '')
+]
 
 server = app.server
 
