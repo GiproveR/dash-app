@@ -5,6 +5,11 @@ import pandas as pd
 df = pd.read_csv('gapminder_unfiltered.csv')
 
 app = Dash()
+
+app.config.suppress_callback_exceptions = True
+app.scripts.config.serve_locally = True
+app.css.config.serve_locally = True
+
 server = app.server
 
 custom_dropdown_options = [
