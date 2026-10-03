@@ -68,7 +68,7 @@ app.layout = html.Div(
                         html.Div(
                             style={'flex': '1.5', 'minWidth': '550px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
                             children=[
-                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.H4('Population in countries', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
                                 html.Div(
                                     style={'display': 'grid', 'gridTemplateColumns': '1fr 1fr', 'gap': '15px'},
                                     children=[
@@ -89,7 +89,7 @@ app.layout = html.Div(
                         html.Div(
                             style={'flex': '1', 'minWidth': '350px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center'},
                             children=[
-                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.H4('Top 15-countries with biggest population', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
                                 dcc.Graph(id='bar-graph', style={'width': '100%'}), 
                             ]
                         ),
@@ -102,7 +102,7 @@ app.layout = html.Div(
                         html.Div(
                             style={'flex': '1.5', 'minWidth': '550px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
                             children=[
-                                html.H4('Scatter Plot Configuration', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.H4('Custom graph', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
                                 html.Div(
                                     style={'display': 'grid', 'gridTemplateColumns': '1fr 1fr 1fr', 'gap': '12px'},
                                     children=[
@@ -118,7 +118,7 @@ app.layout = html.Div(
                         html.Div(
                             style={'flex': '1', 'minWidth': '350px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center'},
                             children=[
-                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.H4('Population on continents', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
                                 dcc.Graph(id='pie-graph', style={'width': '100%'}),
                             ]
                         ),
@@ -148,8 +148,7 @@ def top15_countries(value):
         dff,
         x='pop',
         y='country',
-        #orientation='h',
-        title='Top 15-countries with biggest population'
+        #orientation='h'
     )
     fig.update_yaxes(autorange="reversed")
     return fig
