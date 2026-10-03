@@ -32,6 +32,6 @@ jobs:
           revision-service-account-id: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
           revision-image-url: "cr.yandex/${{ secrets.YC_REGISTRY_ID }}/dash-app:latest"
           revision-cores: 1
-          revision-memory: "256Mb"
+          revision-memory: "384Mb"
           revision-concurrency: 8
 
