@@ -3,7 +3,6 @@ import plotly.express as px
 import pandas as pd
 
 df = pd.read_csv('gapminder_unfiltered.csv')
-print(df.info())
 
 app = Dash()
 server = app.server
