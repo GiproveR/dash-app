@@ -9,7 +9,7 @@ app = Dash(
     xternal_scripts=["https://cdn.plot.ly/plotly-4.1.1.min.js"]
 )
 
-app.scripts.config.serve_locally = False
+app.scripts.config.serve_locally = True
 app.css.config.serve_locally = True
 
 server = app.server
