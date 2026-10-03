@@ -4,7 +4,7 @@ import pandas as pd
 
 df = pd.read_csv('gapminder_unfiltered.csv')
 
-app = Dash()
+app = Dash(requests_pathname_prefix='/')
 
 app.config.suppress_callback_exceptions = True
 app.scripts.config.serve_locally = True
