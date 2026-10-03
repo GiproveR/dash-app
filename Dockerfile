@@ -2,4 +2,4 @@ FROM python:3.12-slim
 WORKDIR /app
 COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
-CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:$PORT", "main:server"]
+CMD gunicorn --bind 0.0.0.0:$PORT main:server
