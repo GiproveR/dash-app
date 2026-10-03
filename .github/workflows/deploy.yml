@@ -27,8 +27,10 @@ jobs:
         uses: yc-actions/yc-sls-container-deploy@v2
         with:
           yc-sa-json-credentials: ${{ secrets.YC_SA_KEY }}
-          container-id: ${{ secrets.YC_CONTAINER_ID }} 
-          image: "cr.yandex/${{ secrets.YC_REGISTRY_ID }}/dash-app:latest"
-          cores: 1
-          memory: "256MB"
-          concurrency: 8
+          folder-id: ${{ secrets.YC_FOLDER_ID }}
+          container-name: "dash-app"
+          revision-image-url: "cr.yandex/${{ secrets.YC_REGISTRY_ID }}/dash-app:latest"
+          revision-cores: 1
+          revision-memory: "256Mb"
+          revision-concurrency: 8
+
