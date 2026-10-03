@@ -7,23 +7,126 @@ print(df.info())
 
 app = Dash()
 
-columns_names = list(df.columns.values)
-numeric_column_names = list(df.select_dtypes((int, float)).columns.values)
-numeric_column_names.remove('year')
-
-app.layout = [
-    html.H1(children='Title of Dash App', style={'textAlign':'center'}),
-    dcc.Dropdown(df.country.unique(), ['Canada'], id='dropdown-selection', multi=True),
-    dcc.Dropdown(numeric_column_names, 'pop', id='linear-axis-y'),
-    dcc.Dropdown(df.year.unique(), 1999, id='year-selection'),
-    dcc.Graph(id='linear-graph'),
-    dcc.Graph(id='bar-graph'),
-    dcc.Graph(id='pie-graph'),
-    dcc.Dropdown(columns_names, 'country', id='scatter-x-dropdown'),
-    dcc.Dropdown(columns_names, 'lifeExp', id='scatter-y-dropdown'),
-    dcc.Dropdown(columns_names, 'pop', id='scatter-r-dropdown'),
-    dcc.Graph(id='scatter-graph')
+custom_dropdown_options = [
+    {'label': 'Country', 'value': 'country'},
+    {'label': 'Continent', 'value': 'continent'},
+    {'label': 'Year', 'value': 'year'},
+    {'label': 'Life expectancy', 'value': 'lifeExp'},
+    {'label': 'Population', 'value': 'pop'},
+    {'label': 'GDP per cap', 'value': 'gdpPercap'}
 ]
+
+numeric_dropdown_options = [
+    {'label': 'Life expectancy', 'value': 'lifeExp'},
+    {'label': 'Population', 'value': 'pop'},
+    {'label': 'GDP per cap', 'value': 'gdpPercap'}
+]
+
+app.layout = html.Div(
+    style={
+        'backgroundColor': '#f8f9fa', 
+        'fontFamily': '"Segoe UI", Roboto, Helvetica, Arial, sans-serif', 
+        'padding': '30px 40px', 
+        'minHeight': '100vh'
+    },
+    children=[
+        html.Div(
+            style={'maxWidth': '1400px', 'margin': '0 auto', 'display': 'flex', 'flexDirection': 'column', 'gap': '30px'},
+            children=[
+                
+                html.Div(
+                    style={
+                        'display': 'flex', 
+                        'flexDirection': 'row', 
+                        'alignItems': 'center', 
+                        'flexWrap': 'wrap',
+                        'gap': '15px', 
+                        'marginBottom': '10px'
+                    },
+                    children=[
+                        html.H1(
+                            'Dashboard of world population on', 
+                            style={'margin': '0', 'color': '#2c3e50', 'fontWeight': '600', 'fontSize': '32px', 'lineHeight': '1'}
+                        ),
+                        html.Div(
+                            dcc.Dropdown(
+                                options=df.year.unique(), 
+                                value=1999, 
+                                id='year-selection',
+                                clearable=False,
+                                style={'border': 'none', 'backgroundColor': 'transparent'}
+                            ),
+                            style={'width': '120px', 'fontSize': '28px', 'fontWeight': '600', 'color': '#3498db'}
+                        ),
+                    ]
+                ),
+
+                html.Div(
+                    style={'display': 'flex', 'flexDirection': 'row', 'gap': '25px', 'flexWrap': 'wrap'},
+                    children=[
+                        html.Div(
+                            style={'flex': '1.5', 'minWidth': '550px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
+                            children=[
+                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.Div(
+                                    style={'display': 'grid', 'gridTemplateColumns': '1fr 1fr', 'gap': '15px'},
+                                    children=[
+                                        html.Div([
+                                            html.Label('Select Countries:', style={'fontSize': '13px', 'fontWeight': '500', 'color': '#7f8c8d', 'marginBottom': '6px', 'display': 'block'}), 
+                                            dcc.Dropdown(df.country.unique(), ['Canada'], id='dropdown-selection', multi=True)
+                                        ]),
+                                        html.Div([
+                                            html.Label('Y-Axis Metric:', style={'fontSize': '13px', 'fontWeight': '500', 'color': '#7f8c8d', 'marginBottom': '6px', 'display': 'block'}), 
+                                            dcc.Dropdown(options=numeric_dropdown_options, value='pop', id='linear-axis-y')
+                                        ]),
+                                    ]
+                                ),
+                                dcc.Graph(id='linear-graph', style={'flex': '1'})
+                            ]
+                        ),
+                        
+                        html.Div(
+                            style={'flex': '1', 'minWidth': '350px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center'},
+                            children=[
+                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                dcc.Graph(id='bar-graph', style={'width': '100%'}), 
+                            ]
+                        ),
+                    ]
+                ),
+
+                html.Div(
+                    style={'display': 'flex', 'flexDirection': 'row', 'gap': '25px', 'flexWrap': 'wrap'},
+                    children=[
+                        html.Div(
+                            style={'flex': '1.5', 'minWidth': '550px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'gap': '20px'},
+                            children=[
+                                html.H4('Scatter Plot Configuration', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                html.Div(
+                                    style={'display': 'grid', 'gridTemplateColumns': '1fr 1fr 1fr', 'gap': '12px'},
+                                    children=[
+                                        html.Div([html.Label('X Axis', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='country', id='scatter-x-dropdown')]),
+                                        html.Div([html.Label('Y Axis', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='lifeExp', id='scatter-y-dropdown')]),
+                                        html.Div([html.Label('Radius', style={'fontSize': '12px', 'color': '#7f8c8d', 'fontWeight': '500'}), dcc.Dropdown(options=custom_dropdown_options, value='pop', id='scatter-r-dropdown')]),
+                                    ]
+                                ),
+                                dcc.Graph(id='scatter-graph', style={'flex': '1'})
+                            ]
+                        ),
+                        
+                        html.Div(
+                            style={'flex': '1', 'minWidth': '350px', 'backgroundColor': '#ffffff', 'borderRadius': '16px', 'padding': '25px', 'boxShadow': '0 4px 20px rgba(0,0,0,0.04)', 'display': 'flex', 'flexDirection': 'column', 'alignItems': 'center'},
+                            children=[
+                                html.H4('Linear Graph Controls', style={'margin': '0', 'color': '#34495e', 'fontSize': '18px'}),
+                                dcc.Graph(id='pie-graph', style={'width': '100%'}),
+                            ]
+                        ),
+                    ]
+                ),
+            ]
+        )
+    ]
+)
 
 @callback(
     Output('linear-graph', 'figure'),
