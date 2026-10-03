@@ -6,6 +6,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 print(df.info())
 
 app = Dash()
+server = app.server
 
 custom_dropdown_options = [
     {'label': 'Country', 'value': 'country'},

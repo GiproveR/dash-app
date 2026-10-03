@@ -1,0 +1,34 @@
+name: Deploy Dash App to Yandex Cloud
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to Yandex Container Registry
+        uses: yc-actions/yc-cr-login@v2
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_KEY }}
+
+      - name: Build and Push Docker Image
+        run: |
+          IMAGE_NAME="cr.yandex/${{ secrets.YC_REGISTRY_ID }}/dash-app:latest"
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+      - name: Deploy to Yandex Serverless Container
+        uses: yc-actions/yc-sls-container-deploy@v2
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_KEY }}
+          container-id: ${{ secrets.YC_CONTAINER_ID }} 
+          image: "cr.yandex/${{ secrets.YC_REGISTRY_ID }}/dash-app:latest"
+          cores: 1
+          memory: "256MB"
+          concurrency: 8
