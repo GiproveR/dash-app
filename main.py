@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc, callback, Output, Input
+from dash.exceptions import PreventUpdate
 import plotly.express as px
 import pandas as pd
 
@@ -60,6 +61,7 @@ app.layout = html.Div(
         'minHeight': '100vh'
     },
     children=[
+        dcc.Store(id='selected-year-store', data=1999),
         html.Div(
             style={'maxWidth': '1400px', 'margin': '0 auto', 'display': 'flex', 'flexDirection': 'column', 'gap': '30px'},
             children=[
@@ -79,12 +81,14 @@ app.layout = html.Div(
                             style={'margin': '0', 'color': '#2c3e50', 'fontWeight': '600', 'fontSize': '32px', 'lineHeight': '1'}
                         ),
                         html.Div(
-                            dcc.Dropdown(
-                                options=df.year.unique(), 
-                                value=1999, 
-                                id='year-selection',
-                                clearable=False,
-                                style={'border': 'none', 'backgroundColor': 'transparent'}
+                            html.Span(
+                                '1999',
+                                id='selected-year-label',
+                                style={
+                                    'fontSize': '28px',
+                                    'fontWeight': '600',
+                                    'color': '#3498db'
+                                }
                             ),
                             style={'width': '120px', 'fontSize': '28px', 'fontWeight': '600', 'color': '#3498db'}
                         ),
@@ -165,11 +169,32 @@ app.layout = html.Div(
 )
 def linear_graph(value, axisY):
     dff = df[df.country.isin(value)]
-    return px.line(dff, x='year', y=axisY, color='country')
+    return px.line(dff, x='year', y=axisY, color='country', markers=True)
+
+@callback(
+    Output('selected-year-store', 'data'),
+    Input('linear-graph', 'clickData'),
+    prevent_initial_call=True
+)
+def update_selected_year(click_data):
+
+    if not click_data:
+        raise PreventUpdate
+
+    year = click_data['points'][0]['x']
+
+    return int(float(year))
+
+@callback(
+    Output('selected-year-label', 'children'),
+    Input('selected-year-store', 'data')
+)
+def update_year_label(year):
+    return str(year)
 
 @callback(
     Output('bar-graph', 'figure'),
-    Input('year-selection', 'value')
+    Input('selected-year-store', 'data')
 )
 def top15_countries(value):
     dff = df[['pop', 'country']][df.year == value].sort_values(by='pop', ascending=False).head(15)
@@ -184,7 +209,7 @@ def top15_countries(value):
 
 @callback(
     Output('pie-graph', 'figure'),
-    Input('year-selection', 'value')
+    Input('selected-year-store', 'data')
 )
 def pie_graph(value):
     dff = df[['pop', 'continent']][df.year == value].groupby(by='continent', as_index=False).sum()
@@ -195,7 +220,7 @@ def pie_graph(value):
     Input('scatter-x-dropdown', 'value'),
     Input('scatter-y-dropdown', 'value'),
     Input('scatter-r-dropdown', 'value'),
-    Input('year-selection', 'value')
+    Input('selected-year-store', 'data')
 )
 def scatter_graph(valueX, valueY, valueR, year):
     dff = df[df.year == year]
