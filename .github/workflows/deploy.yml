@@ -1,6 +1,6 @@
 name: Deploy Dash App to Yandex Cloud
 
-on: push
+# on: push
 
 jobs:
   deploy:
